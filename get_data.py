@@ -2,7 +2,7 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-import re
+import pandas as pd
 import wbdata
 
 # initial run to grab categories
@@ -63,9 +63,21 @@ def plot_data(df):
     plt.tight_layout()
     plt.savefig("testplot")
 
-
 def to_csv(df):
-    return ""
+    df = pd.DataFrame(df)
+    df.to_csv("temp_file.csv")
+    rd = pd.read_csv("temp_file.csv", usecols=["date", "0"])
+    rd.dropna(inplace=True)
+    return rd
+
+def generate(number, filename):
+    item = return_data(number)
+    file = to_csv(item)
+    cat = list(category(number).values())
+    file = file.rename({'0': cat[0]}, axis=1)
+    file.to_csv(str(filename) + ".csv")
+
+generate(13, "yeeting")
 
 #for item in data_categories:
 #    print(item["name"], item["id"])
