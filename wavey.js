@@ -1,4 +1,5 @@
 // Change seaRiseAmt to a number between 0 and 100 to set base sea level!
+// public domain
 
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
@@ -6,7 +7,7 @@ var ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-seaRiseAmt = 59
+seaRiseAmt = 100
 
 var date = Date.now();
 function draw(delta) {
