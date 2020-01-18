@@ -5,8 +5,10 @@ import os
 import wbdata
 
 # initial run to grab categories
+# topic 19 = climate change
 data_categories = wbdata.get_indicator(topic=19)
 
+print(data_categories)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # USE:
 # output is a Boolean - if true, print as well as return
@@ -28,6 +30,22 @@ def list_categories(output=True):
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 def category(number):
     return {data_categories[number]["id"]:data_categories[number]["name"]}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# USE:
+# number is the number of a data set according to list_categories
+# country is an array of countries to get data on, or "all"
+# returns the unstacked data from worldbank
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+def returnData(number, country=["USA"]):
+    try:
+        cat = category(number)
+        df = wbdata.get_dataframe(cat, country=country, convert_date=False)
+        df = df.unstack(level=0)
+        return df
+    except IndexError:
+        print("no data on this!")
 
 #for item in data_categories:
 #    print(item["name"], item["id"])
