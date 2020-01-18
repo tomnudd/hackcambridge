@@ -35,7 +35,7 @@ def category(number):
 # USE:
 # number is the number of a data set according to list_categories
 # country is an array of countries to get data on, or "all"
-# returns the unstacked data from worldbankd
+# returns the unstacked data from worldbank
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 def return_data(number, country=["USA"]):
     try:
@@ -68,22 +68,19 @@ def to_csv(df):
     df.to_csv("temp_file.csv")
     rd = pd.read_csv("temp_file.csv", usecols=["date", "0"])
     rd.dropna(inplace=True)
+    os.remove("temp_file.csv")
     return rd
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# USE:
+# number is the number of a data set according to list_categories
+# filename is the filename to save
+# saves a csv file of the data from worldbank
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 def generate(number, filename):
     item = return_data(number)
     file = to_csv(item)
     cat = list(category(number).values())
     file = file.rename({'0': cat[0]}, axis=1)
     file.to_csv(str(filename) + ".csv")
-
-generate(13, "yeeting")
-
-#for item in data_categories:
-#    print(item["name"], item["id"])
-
-# df = wbdata.get_dataframe({"EN.ATM.CO2E.GF.KT":"CO2 emissions from gaseous fuel consumption (kt)"}, country=["all"], convert_date=False)
-#
-# df = df.unstack(level=0)
-#
-# df.plot().get_figure().savefig('co2fromfuelukusa.png')
+    return file
