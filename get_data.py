@@ -2,13 +2,13 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import re
 import wbdata
 
 # initial run to grab categories
 # topic 19 = climate change
 data_categories = wbdata.get_indicator(topic=19)
 
-print(data_categories)
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # USE:
 # output is a Boolean - if true, print as well as return
@@ -35,10 +35,9 @@ def category(number):
 # USE:
 # number is the number of a data set according to list_categories
 # country is an array of countries to get data on, or "all"
-# returns the unstacked data from worldbank
+# returns the unstacked data from worldbankd
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-def returnData(number, country=["USA"]):
+def return_data(number, country=["USA"]):
     try:
         cat = category(number)
         df = wbdata.get_dataframe(cat, country=country, convert_date=False)
@@ -46,6 +45,27 @@ def returnData(number, country=["USA"]):
         return df
     except IndexError:
         print("no data on this!")
+
+# for the sake of Tom's eyes
+def plot_data(df):
+    df.plot()
+    ax = plt.gca()
+    plt.xticks(rotation=60)
+    plt.title("ok")
+    plt.xlabel("Date")
+    plt.ylabel("test")
+    labels = [item.get_text() for item in ax.get_xticklabels()]
+    for x in range(len(labels)):
+        new = labels[x][-5:-1]
+        if len(new) > 0:
+            labels[x] = new
+    ax.set_xticklabels(labels)
+    plt.tight_layout()
+    plt.savefig("testplot")
+
+
+def to_csv(df):
+    return ""
 
 #for item in data_categories:
 #    print(item["name"], item["id"])
