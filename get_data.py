@@ -84,3 +84,21 @@ def generate(number, filename):
     file = file.rename({'0': cat[0]}, axis=1)
     file.to_csv(str(filename) + ".csv")
     return file
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# USE:
+# name is the file name
+# returns arrs based on csv files of worldbank datasets
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+def read_file(name):
+    raw_data = open(filename, 'rt')
+    reader = list(csv.reader(raw_data, delimiter=',', quoting=csv.QUOTE_NONE))
+    dataset = np.array(reader)
+    dataset = np.delete(dataset, 0, 1)
+    dataset = np.delete(dataset, 0, 0)
+
+    x = np.array(dataset[:,0])
+    y = np.array(dataset[:,1])
+
+    return x, y
