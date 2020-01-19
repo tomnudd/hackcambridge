@@ -7,7 +7,7 @@ var ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-seaRiseAmt = 100
+seaRiseAmt = 50
 
 var date = Date.now();
 function draw(delta) {
@@ -16,6 +16,8 @@ function draw(delta) {
   canvas.width = canvas.width;
 
   rise = (seaRiseAmt/100) * canvas.height
+
+  ctx.save()
 
   ctx.fillStyle = "#87ceeb";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -30,13 +32,24 @@ function draw(delta) {
 
   ctx.beginPath();
   ctx.moveTo(0, randomLeft+canvas.height-rise);
-
   ctx.bezierCurveTo(canvas.width / 3, randomLeftConstraint-rise+canvas.height, canvas.width / 3 * 2, randomRightConstraint-rise+canvas.height, canvas.width, randomRight-rise+canvas.height);
   ctx.lineTo(canvas.width, canvas.height); // top left to bot right
   ctx.lineTo(0, canvas.height); // bot right to bot left
   ctx.lineTo(0, randomLeft-rise); // bot left to top right
-
   ctx.closePath();
   ctx.fill();
+
+  ctx.restore()
+
+  ctx.translate(0, canvas.height);
+ctx.scale(1, -1);
+
+  ctx.beginPath();
+  ctx.lineTo(canvas.width,600);
+  ctx.arc(0.4*canvas.width, 0, 400, 0.5*Math.PI, 1*Math.PI);
+  ctx.lineTo(canvas.width,0);
+  ctx.fillStyle = "#c2b280";
+  ctx.fill();
+
 }
 requestAnimationFrame(draw);
