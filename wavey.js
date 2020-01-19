@@ -13,9 +13,12 @@ var date = Date.now();
 function draw(delta) {
   requestAnimationFrame(draw);
 
+  canvas.width = canvas.width;
+
   rise = (seaRiseAmt/100) * canvas.height
 
-  canvas.width = canvas.width;
+  ctx.fillStyle = "#87ceeb";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // colour!
   ctx.fillStyle = "rgba(100, 150, 210, 0.63)";
